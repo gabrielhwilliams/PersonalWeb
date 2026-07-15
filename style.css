@@ -1,0 +1,162 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  line-height: 1.6;
+  color: var(--text-main);
+  background-color: var(--main-bg);
+}
+
+:root {
+  --bg-main: #c9c9c9;     /* 60% Dominant */
+  --text-main: #3a0932;   /* 30% Structural */
+  --accent: #a70399;      /* 10% Intentional Accent */
+  --grey: #857483;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 22px;
+  padding: 16px 24px;
+  background-color: var(--main-bg);
+    box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.05),
+    0 2px 4px -2px rgba(0, 0, 0, 0.05);
+}
+
+.navbar ul {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar li {
+  margin-right: 20px;
+}
+
+.navbar a {
+  text-decoration: none;
+  color: #1f2937;
+  font-weight: 500;
+  transition: color 0.3s ease;
+  position: relative;
+  text-decoration: none;
+}
+
+.navbar a::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0); /* Hide line by scaling its width to 0 */
+  height: 2px;
+  bottom: -2px; /* Position right below text */
+  left: 0;
+  background-color: var(--accent);
+  transform-origin: bottom left; /* Scale from left to right */
+  transition: transform 0.25s ease-out; /* Smooth slide speed */
+}
+.navbar a:hover::after {
+  transform: scaleX(1); /* Reveal line by scaling its width to 1 */
+}
+.navbar a:hover {
+  color: var(--accent);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px; /* Perfectly uniform spacing */
+  padding: 48px 24px;
+}
+
+
+.btn-primary {
+  background-color: var(--accent);
+  color: var(--bg-main);
+  padding: 12px 24px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: var(--accent);
+  transform: translateY(-2px); /* Gentle organic lift */
+}
+
+.timeline {
+  position: relative;
+  padding: 10px 0 0 10px;
+}
+
+.bars {
+  position: absolute; top: 0; left: 60px;
+}
+
+.tick {
+  box-sizing: border-box;
+  padding: 0 6px;
+  font-family: monospace;
+  font-size: 20px;
+  height: 20px;
+  color: var(--grey);
+  position: relative;
+  width: 50px;
+  /* padding-left: 24px; */
+  display: flex;
+  align-items: center;
+}
+
+.tick::after {
+  content: "";
+  position: absolute;
+  left: 100%;
+  margin-left: 4px;
+  top: 50%;
+  width: 16px;
+  height: 2px;
+  background: var(--grey);
+}
+
+/* .tick--year {
+  padding: 6px 0 6px 24px;
+}
+
+.tick--month {
+  padding: 3px 0 3px 24px; 
+} 
+*/
+
+.tick--month::after {
+  width: 8px; /* shorter dash than the year's */
+}
+
+.tick--year::after {
+  width: 24px;
+}
+
+.event-bar {
+  position: absolute;
+  left: 0;
+  width: 12px;
+  background: steelblue;
+  border-radius: 2px;
+  border-radius: 10px;
+}
+
+.event-label {
+  position: absolute;
+  left: 20px;        /* pushes it clear of the bar itself */
+  top: 0;
+  white-space: nowrap; /* stops it wrapping onto multiple lines */
+  font-size: 12px;
+  color: #333;
+}
