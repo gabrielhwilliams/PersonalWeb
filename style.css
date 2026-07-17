@@ -4,18 +4,29 @@
   padding: 0;
 }
 
+html {
+  scroll-padding-top: 67px;
+}
+
 body {
   font-family: 'Inter', system-ui, sans-serif;
   line-height: 1.6;
   color: var(--text-main);
-  background-color: var(--main-bg);
+  background-color: var(--bg-main);
+  padding-top: 67.2px;
 }
 
 :root {
-  --bg-main: #c9c9c9;     /* 60% Dominant */
+  --bg-main: #e9e9e9;     /* 60% Dominant */
   --text-main: #3a0932;   /* 30% Structural */
   --accent: #a70399;      /* 10% Intentional Accent */
   --grey: #857483;
+  --job: steelblue;
+  --education: #6B8F71;
+  --project: #C08A3E;
+  --event: #A0527A;
+  --sidebar-width: 150px;
+  --tick-column-width: 60px;
 }
 
 .navbar {
@@ -24,10 +35,15 @@ body {
   align-items: center;
   font-size: 22px;
   padding: 16px 24px;
-  background-color: var(--main-bg);
+  background-color: var(--bg-main);
     box-shadow: 
     0 4px 6px -1px rgba(0, 0, 0, 0.05),
     0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  position: fixed;
+  top: 0; 
+  left: 0;
+  width: 100%;
+  z-index: 1000; 
 }
 
 .navbar ul {
@@ -46,7 +62,6 @@ body {
   color: #1f2937;
   font-weight: 500;
   transition: color 0.3s ease;
-  position: relative;
   text-decoration: none;
 }
 
@@ -68,6 +83,7 @@ body {
 .navbar a:hover {
   color: var(--accent);
 }
+
 
 .container {
   display: flex;
@@ -94,11 +110,42 @@ body {
 
 .timeline {
   position: relative;
-  padding: 10px 0 0 10px;
+  padding: 10px var(--sidebar-width) 0 calc(var(--sidebar-width) + 10px);
+}
+
+.timeline::before,
+.timeline::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 150px;
+  background: var(--accent);
+}
+
+.timeline::before {
+  left: 0;
+}
+
+.timeline::after {
+  right: 0;
 }
 
 .bars {
-  position: absolute; top: 0; left: 95px;
+  position: absolute; 
+  top: 0; 
+  left: calc(var(--sidebar-width) + var(--tick-column-width) + 35px);
+}
+
+@media (max-width: 900px) {
+  :root {
+    --sidebar-width: 0px;
+  }
+
+  .timeline::before,
+  .timeline::after {
+    display: none;
+  }
 }
 
 .tick {
@@ -135,6 +182,7 @@ body {
 } 
 */
 
+
 .tick--month::after {
   width: 8px; /* shorter dash than the year's */
 }
@@ -143,20 +191,132 @@ body {
   width: 24px;
 }
 
+.tick--current{
+  color: var(--accent);
+  /* font-weight: bold; */
+}
+
+.tick--current::after {
+  background: var(--accent);
+  font-weight: bold;
+  width: 16px;
+}
+
 .event-bar {
   position: absolute;
-  left: 0;
   width: 12px;
-  background: steelblue;
-  border-radius: 2px;
   border-radius: 10px;
+  scroll-margin-top: 20px;
+  transition: left 0.25s ease;
 }
 
 .event-label {
   position: absolute;
-  left: 20px;        /* pushes it clear of the bar itself */
+  left: 20px;
   top: 0;
-  white-space: nowrap; /* stops it wrapping onto multiple lines */
-  font-size: 12px;
-  color: #333;
+  opacity: 0;
+  pointer-events: none;
+  white-space: nowrap;
+  transition: opacity 0.15s ease;
 }
+
+.event-bar.is-expanded {
+  z-index: 10;
+}
+
+.event-bar.is-expanded .event-label {
+  opacity: 1;
+  pointer-events: auto;
+  width: 220px;
+  padding: 8px 12px;
+  background: var(--bg-main);
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  white-space: normal;
+  z-index: 10;
+}
+
+.event-label-name {
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 2px;
+}
+
+.event-label-role {
+  font-style: italic;
+  font-size: 12px;
+  margin-bottom: 10px;   /* the gap before "Desc" in the sketch */
+}
+
+.event-label-desc {
+  font-size: 12px;
+  margin-bottom: 10px;   /* the gap before "List of skills" */
+  line-height: 1.5;
+}
+
+.event-label-skills-heading {
+  font-size: 12px;
+  margin-bottom: 2px;
+}
+
+.event-label-skills {
+  font-size: 12px;
+}
+
+.event-label-detail {
+  display: none;
+}
+
+.event-bar--job.is-expanded .event-label { border: 2px solid var(--job); color: var(--job); }
+.event-bar--education.is-expanded .event-label { border: 2px solid var(--education); color: var(--education); }
+.event-bar--project.is-expanded .event-label { border: 2px solid var(--project); color: var(--project); }
+/* 
+.event-bar.is-expanded .event-label {
+  opacity: 1;
+  pointer-events: auto;
+  background: var(--bg-main);
+  border: 1px solid var(--grey);
+  border-radius: 6px;
+  padding: 8px 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  white-space: normal;
+  max-width: 240px;
+}
+
+.event-bar.is-expanded .event-label-detail {
+  display: block;
+  margin-top: 6px;
+  font-size: 11px;
+  color: var(--grey);
+}
+
+.event-bar:hover .event-label,
+.event-point:hover .event-label {
+  opacity: 1;
+} */
+.event-bar--job {
+  background: var(--job);
+}
+.event-bar--education {
+  background: var(--education);
+}
+.event-bar--project {
+  background: var(--project);
+}
+
+.event-point {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid var(--grey);
+  background: steelblue;
+  box-sizing: border-box;
+  transform: translateY(-50%);
+  transition: left 0.25s ease;
+}
+
+.event-point--education { background: var(--education); }
+.event-point--job { background: var(--job); }
+.event-point--project { background: var(--project); }
+.event-point--event { background: var(--event); }
