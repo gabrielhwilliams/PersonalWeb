@@ -15,13 +15,10 @@ const job1 = {
     endDate: new Date("2022-08-31"),
 };
 jobs.push(job1);
-jobs.push({...job1});
-jobs.push({...job1});
-jobs.push({...job1});
 
 const job2 = {
     name: "Amplify co-op",
-    title: "Software Engineer Intern",
+    title: "Software Engineer",
     type: "job",
     skills: ["Python", "R"],
     startDate: new Date("2024-05-01"),
@@ -29,6 +26,28 @@ const job2 = {
 };
 
 jobs.push(job2);
+
+const job3 = {
+    name: "iDtech Instructor",
+    title: "Instructor",
+    type: "job",
+    skills: ["Python", "R"],
+    startDate: new Date("2026-06-01"),
+    endDate: new Date("2026-8-31"),
+};
+
+jobs.push(job3);
+
+const job4 = {
+    name: "RKF Engineering co-op",
+    title: "Software Engineer",
+    type: "job",
+    skills: ["Python", "R"],
+    startDate: new Date("2025-05-01"),
+    endDate: new Date("2025-12-31"),
+};
+jobs.push(job4);
+
 const education1 = {
     name: "Rochester Institute of Technology",
     title: "Bachelor of Science in Computer Science, Bachelor of Science in Psychology, Minor in Artificial Intelligence",

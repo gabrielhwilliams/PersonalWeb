@@ -51,17 +51,18 @@ function monthIndex(date) {
 function createBar(event){
     const bar = document.createElement('div');
     bar.classList.add('event-bar');
-
+    console.log(event)
     const top = dateToY(event.endDate)
     const bottom = dateToY(event.startDate)
 
-    if (bottom < top) {
-        console.warn('Bar has negative height — check date order for event:', event.name);
-    }
+
+    const barWidth = 12;
+    const trackGap = 4;
 
     bar.style.top = `${top}px`
     bar.style.height = `${bottom - top}px`
-    
+    bar.style.left = `${event.trackId * (barWidth + trackGap)}px`
+
     const label = document.createElement('div');
     label.classList.add('event-label');
     label.textContent = event.name;
@@ -85,6 +86,7 @@ const eduTracks = getTracks(timelineData[1]);
 const projectTracks = getTracks(timelineData[2]);
 const eventTracks = getTracks(timelineData[3]);
 const alltracks = [...timelineData[0], ...timelineData[1], ...timelineData[2], ...timelineData[3]]
+const indexedTracks = getTracks(alltracks)
 let startYear = alltracks[0].endDate.getFullYear();
 let endYear = alltracks[0].startDate.getFullYear();
 alltracks.forEach(element => {
@@ -95,8 +97,9 @@ alltracks.forEach(element => {
         endYear = element.startDate.getFullYear();
     }
 });
-const topAnchor = monthIndex(new Date(startYear, 11));
-console.log('startYear:', startYear, 'endYear:', endYear, 'topAnchor:', topAnchor);
+startYear += 1
+const topAnchor = monthIndex(new Date(startYear, 0));
 setUpTimeline(alltracks)
-populateBars(timelineData[0])
+console.log(indexedTracks)
+populateBars(indexedTracks.flat())
 
