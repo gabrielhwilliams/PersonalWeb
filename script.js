@@ -128,12 +128,32 @@ function createPoint(event) {
     point.classList.add('event-point', `event-point--${event.type}`);
     const y = dateToY(event.startDate)
      point.style.top = `${y}px`;
-    point.style.left = `${event.trackId * (12 + 4)}px`; // same track math as bars
+    point.style.left = `${event.trackId * (12 + 4)}px`;
 
     const label = document.createElement('div');
     label.classList.add('event-label');
-    label.textContent = event.name;
-    label.style.top = 0;
+
+    const name = document.createElement('div');
+    name.classList.add('event-label-name');
+    name.textContent = event.name;
+
+    const role = document.createElement('div');
+    role.classList.add('event-label-role');
+    role.textContent = event.title;
+
+    const desc = document.createElement('div');
+    desc.classList.add('event-label-desc');
+    desc.textContent = event.description ?? '';
+
+    const skillsHeading = document.createElement('div');
+    skillsHeading.classList.add('event-label-skills-heading');
+    skillsHeading.textContent = 'List of skills';
+
+    const skills = document.createElement('div');
+    skills.classList.add('event-label-skills');
+    skills.textContent = (event.skills ?? []).join(', ');
+
+    label.append(name, role, desc, skillsHeading, skills);
 
     point.eventData = event;
     point.addEventListener('click', () => expandBar(point));
@@ -176,8 +196,25 @@ function repositionBars(expandedTrackId) {
 
         bar.style.left = `${left}px`;
     });
+
+    revealFittingLabels();
 }
 
+function revealFittingLabels() {
+  const names = Array.from(document.querySelectorAll('.event-label-name'));
+
+  names.sort((a, b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top);
+
+  let lastBottom = -Infinity;
+
+  names.forEach(name => {
+    const rect = name.getBoundingClientRect();
+    if (rect.top >= lastBottom) {
+      name.classList.add('is-visible');
+      lastBottom = rect.bottom;
+    }
+  });
+}
 
 
 const rowHeight = 20;
@@ -217,4 +254,5 @@ const topAnchor = monthIndex(new Date(startYear, 0));
 setUpTimeline(alltracks)
 console.log(indexedTracks)
 populateBars(indexedTracks.flat())
+revealFittingLabels();
 
