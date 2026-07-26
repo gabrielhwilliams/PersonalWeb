@@ -62,6 +62,14 @@ function setUpTimeline (alltracks) {
     }
 }
 
+function getTopmostElement(elements) {
+  return elements.reduce((topmost, el) => {
+    const currentTop = parseFloat(el.style.top);
+    const topmostTop = parseFloat(topmost.style.top);
+    return currentTop < topmostTop ? el : topmost;
+  });
+}
+
 function dateToY(date) {
     const row = topAnchor - monthIndex(date);
     return row * rowHeight;
@@ -93,7 +101,7 @@ function createBar(event){
     // label.style.top = 0
 
     const label = document.createElement('div');
-    label.classList.add('event-label');
+    label.classList.add('event-label', `event-label--${event.type}`);
 
     const name = document.createElement('div');
     name.classList.add('event-label-name');
@@ -131,7 +139,7 @@ function createPoint(event) {
     point.style.left = `${event.trackId * (12 + 4)}px`;
 
     const label = document.createElement('div');
-    label.classList.add('event-label');
+    label.classList.add('event-label', `event-label--${event.type}`);
 
     const name = document.createElement('div');
     name.classList.add('event-label-name');
@@ -201,21 +209,30 @@ function repositionBars(expandedTrackId) {
 }
 
 function revealFittingLabels() {
-  const names = Array.from(document.querySelectorAll('.event-label-name'));
+    const bars = Array.from(document.querySelectorAll('.event-bar, .event-point'));
+    const rects = bars.map(bar => ({ bar, rect: bar.getBoundingClientRect() }));
 
-  names.sort((a, b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top);
+    rects.forEach(({ bar, rect }) => {
+        const topBandHeight = 25;
+        const bandTop = rect.top;
+        const bandBottom = rect.top + topBandHeight;
 
-  let lastBottom = -Infinity;
+        const hasBarToRight = rects.some(other => {
+        if (other.bar === bar) return false;
+            const otherRect = other.rect;
 
-  names.forEach(name => {
-    const rect = name.getBoundingClientRect();
-    if (rect.top >= lastBottom) {
-      name.classList.add('is-visible');
-      lastBottom = rect.bottom;
-    }
-  });
+            const isToTheRight = otherRect.left >= rect.right;
+            const overlapsTopBand = otherRect.top < bandBottom && otherRect.bottom > bandTop;
+
+            return isToTheRight && overlapsTopBand;
+        });
+
+        if (!hasBarToRight) {
+            const label = bar.querySelector('.event-label-name');
+            if (label) label.classList.add('is-visible');
+        }
+    });
 }
-
 
 const rowHeight = 20;
 const jobTracks = getTracks(timelineData[0]);
@@ -223,9 +240,9 @@ const eduTracks = getTracks(timelineData[1]);
 const projectTracks = getTracks(timelineData[2]);
 const eventTracks = getTracks(timelineData[3]);
 const collapsedWidth = 12;
-const expandedWidth = 240;
+const expandedWidth = 250;
 const trackGap = 4;
-const expansionOffset = expandedWidth - collapsedWidth;
+const expansionOffset = expandedWidth + 20 - collapsedWidth;
 const eduOffset = 0
 const jobOffset = eduOffset + eduTracks.length
 const projectOffset = jobOffset + jobTracks.length
@@ -254,5 +271,7 @@ const topAnchor = monthIndex(new Date(startYear, 0));
 setUpTimeline(alltracks)
 console.log(indexedTracks)
 populateBars(indexedTracks.flat())
+const topBar = getTopmostElement(allElements);
+expandBar(topBar);
 revealFittingLabels();
 

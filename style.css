@@ -227,6 +227,11 @@ body {
 .event-point--project   { background: var(--project); }
 .event-point--event     { background: var(--event); }
 
+.event-label--job       { color: var(--job); }
+.event-label--education { color: var(--education); }
+.event-label--project   { color: var(--project); }
+.event-label--event     { color: var(--event); }
+
 /* ============ EVENT LABEL (shared) ============ */
 .event-label {
   position: absolute;
@@ -237,11 +242,15 @@ body {
   transition: opacity 0.15s ease;
 }
 
+.event-point .event-label {
+  top: -7.5px
+}
+
 .event-bar.is-expanded .event-label,
 .event-point.is-expanded .event-label {
   opacity: 1;
   pointer-events: auto;
-  width: 220px;
+  width: 250px;
   padding: 8px 12px;
   background: var(--bg-main);
   border-radius: 6px;
