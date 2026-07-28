@@ -267,6 +267,7 @@ alltracks.forEach(element => {
     }
 });
 startYear += 1
+endYear += 1
 const topAnchor = monthIndex(new Date(startYear, 0));
 setUpTimeline(alltracks)
 console.log(indexedTracks)
