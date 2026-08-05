@@ -3,7 +3,7 @@ import MinHeap from './minheap.js';
 
 
 
-function expandBar(bar) {
+function expandBar(bar, shouldScroll = true) {
     if (currentlyExpanded && currentlyExpanded !== bar) {
         currentlyExpanded.classList.remove('is-expanded');
     }
@@ -14,7 +14,7 @@ function expandBar(bar) {
     const expandedTrackId = currentlyExpanded ? currentlyExpanded.eventData.trackId : null;
     repositionBars(expandedTrackId);
 
-    if (bar.classList.contains('is-expanded')) {
+    if (shouldScroll && bar.classList.contains('is-expanded')) {
         bar.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 }
@@ -273,6 +273,6 @@ setUpTimeline(alltracks)
 console.log(indexedTracks)
 populateBars(indexedTracks.flat())
 const topBar = getTopmostElement(allElements);
-expandBar(topBar);
+expandBar(topBar, false);
 revealFittingLabels();
 
