@@ -4,37 +4,58 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gabriel's Portfolio</title>
+    <title>Gabriel Williams | Software Engineer</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <header>
         <nav class="navbar">
-            <ul>
-                <li><a href="index.html#intro">Home</a></li>
-                <li><a href="index.html#skills">Skills</a></li>
-                <li><a href="timeline.html">Timeline</a></li>
-                <li><a href="resume.html">CV</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
+            <div class="nav-left">
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li class="nav-divider" aria-hidden="true"><img src="images/slash.png" alt="/" class="nav-slash"></li>
+                    <li><a href="timeline.html">Timeline</a></li>
+                    <li class="nav-divider" aria-hidden="true"><img src="images/slash.png" alt="/" class="nav-slash"></li>
+                    <li><a href="resume.html">CV</a></li>
+                </ul>
+            </div>
+            <div class="nav-right">
+                <a href="mailto:gabrielhwilliams@gmail.com" class="nav-icon-btn" aria-label="Email" title="Email">
+                    <img src="images/mail.png" alt="Email" class="nav-icon">
+                </a>
+                <a href="https://www.linkedin.com/in/gabriel-h-williams/" target="_blank" rel="noopener noreferrer" class="nav-icon-btn" aria-label="LinkedIn" title="LinkedIn">
+                    <img src="images/in.png" alt="LinkedIn" class="nav-icon">
+                </a>
+                <a href="https://github.com/gabrielhwilliams" target="_blank" rel="noopener noreferrer" class="nav-icon-btn" aria-label="GitHub" title="GitHub">
+                    <img src="images/git.png" alt="GitHub" class="nav-icon">
+                </a>
+            </div>
         </nav>
     </header>
-    <section id="intro">
-        <div class="intro">
-            <div style="font-size: 42px;">Hi! I'm Gabriel.</div>
-            <div>I am a software engineer with 2 years of professional experience.</div>
-            <div>Graduating college may 2027 and looking to find work beyond that.</div>
-            <div>Excited to keep learning.</div>
-            <div>based in NYC.</div>
-        </div>
-    </section>
-    <section id="skills">
-        <div class="skills-container">
-            <h2 class="skills-title">Skills & Technologies</h2>
-            <div class="skills-grid">
-                <div class="skill-card">
-                    <h3>Languages</h3>
+
+    <main class="main-column">
+        <!-- Chunk: Name -->
+        <section id="name" class="chunk chunk-name">
+            <h1 class="name-title">Gabriel Williams</h1>
+            <p class="name-subtitle">Software Engineer &bull; New York, NY</p>
+        </section>
+
+        <!-- Chunk: Blurb -->
+        <section id="blurb" class="chunk chunk-blurb">
+            <h2 class="chunk-title">About</h2>
+            <div class="blurb-content">
+                <p>Hi! I'm Gabriel. I am a software engineer with 2 years of professional experience, graduating college in May 2027 and looking to find work beyond that.</p>
+                <p>Excited to keep learning, solving complex problems, and building reliable systems across full-stack applications and AI tooling. Based in NYC.</p>
+            </div>
+        </section>
+
+        <!-- Chunk: Skills -->
+        <section id="skills" class="chunk chunk-skills">
+            <h2 class="chunk-title">Skills</h2>
+            <div class="skills-list">
+                <div class="skill-group">
+                    <span class="skill-group-title">Languages</span>
                     <div class="skill-tags">
                         <span class="skill-tag">Python</span>
                         <span class="skill-tag">Java</span>
@@ -44,8 +65,8 @@
                         <span class="skill-tag">R</span>
                     </div>
                 </div>
-                <div class="skill-card">
-                    <h3>Frameworks</h3>
+                <div class="skill-group">
+                    <span class="skill-group-title">Frameworks & Libraries</span>
                     <div class="skill-tags">
                         <span class="skill-tag">React</span>
                         <span class="skill-tag">Spring</span>
@@ -53,8 +74,8 @@
                         <span class="skill-tag">Liquibase</span>
                     </div>
                 </div>
-                <div class="skill-card">
-                    <h3>Tools & Infrastructure</h3>
+                <div class="skill-group">
+                    <span class="skill-group-title">Tools & Infrastructure</span>
                     <div class="skill-tags">
                         <span class="skill-tag">Linux</span>
                         <span class="skill-tag">Docker</span>
@@ -62,8 +83,8 @@
                         <span class="skill-tag">CI/CD</span>
                     </div>
                 </div>
-                <div class="skill-card">
-                    <h3>AI & Concepts</h3>
+                <div class="skill-group">
+                    <span class="skill-group-title">AI & Concepts</span>
                     <div class="skill-tags">
                         <span class="skill-tag">Agentic AI</span>
                         <span class="skill-tag">Gemini</span>
@@ -72,6 +93,97 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+
+        <!-- Chunk: Experiences -->
+        <section id="experiences" class="chunk chunk-experiences">
+            <h2 class="chunk-title">Experiences</h2>
+            <div class="experience-list">
+                <div class="experience-item">
+                    <div class="experience-header">
+                        <span class="experience-role">B.S. in Computer Science & Psychology, Minor in AI</span>
+                        <span class="experience-date">Sep 2022 &ndash; May 2027</span>
+                    </div>
+                    <div class="experience-company">Rochester Institute of Technology</div>
+                    <p class="experience-desc">Dual degree program in Computer Science and Psychology with a minor in Artificial Intelligence.</p>
+                </div>
+
+                <div class="experience-item">
+                    <div class="experience-header">
+                        <span class="experience-role">Instructor</span>
+                        <span class="experience-date">Jun 2026 &ndash; Aug 2026</span>
+                    </div>
+                    <div class="experience-company">iD Tech</div>
+                    <p class="experience-desc">Teaching programming, computer science principles, and game development to students.</p>
+                    <div class="experience-skills"><span>Skills:</span> Python, R</div>
+                </div>
+
+                <div class="experience-item">
+                    <div class="experience-header">
+                        <span class="experience-role">Software Engineer <span class="experience-badge">Co-op</span></span>
+                        <span class="experience-date">May 2025 &ndash; Dec 2025</span>
+                    </div>
+                    <div class="experience-company">RKF Engineering Solutions</div>
+                    <p class="experience-desc">Developing and maintaining software engineering solutions, backend services, and web applications.</p>
+                    <div class="experience-skills"><span>Skills:</span> Python, R</div>
+                </div>
+
+                <div class="experience-item">
+                    <div class="experience-header">
+                        <span class="experience-role">Software Engineer <span class="experience-badge">Co-op</span></span>
+                        <span class="experience-date">May 2024 &ndash; Dec 2024</span>
+                    </div>
+                    <div class="experience-company">Amplify</div>
+                    <p class="experience-desc">Engineered and maintained web applications and educational tools within an agile engineering team.</p>
+                    <div class="experience-skills"><span>Skills:</span> Python, R</div>
+                </div>
+
+                <div class="experience-item">
+                    <div class="experience-header">
+                        <span class="experience-role">Software Engineer Intern</span>
+                        <span class="experience-date">Jun 2022 &ndash; Aug 2022</span>
+                    </div>
+                    <div class="experience-company">Amplify</div>
+                    <p class="experience-desc">Developed and maintained web applications, supporting core features and testing.</p>
+                    <div class="experience-skills"><span>Skills:</span> Python, R</div>
+                </div>
+
+                <div class="experience-item experience-projects-group">
+                    <div class="experience-header">
+                        <span class="experience-role">Featured Projects</span>
+                    </div>
+                    <div class="project-list">
+                        <div class="project-item">
+                            <div class="project-header">
+                                <span class="project-title">TrelloBored</span>
+                                <span class="project-year">2026</span>
+                            </div>
+                            <p class="project-desc">AI-powered VS Code extension interpreting Git actions to manage scrum tickets via Python backend, Gemini AI, and GitHub Actions.</p>
+                            <div class="project-skills"><span>Skills:</span> CI/CD, Python, Gemini AI, GitHub Actions</div>
+                        </div>
+
+                        <div class="project-item">
+                            <div class="project-header">
+                                <span class="project-title">Headless Linux Server</span>
+                                <span class="project-year">2026</span>
+                            </div>
+                            <p class="project-desc">Self-hosted Linux server for security experimentation, networking, and project hosting.</p>
+                            <div class="project-skills"><span>Skills:</span> Linux, Security, Networking, Docker</div>
+                        </div>
+
+                        <a href="https://github.com/gabrielhwilliams/Recipeasy" target="_blank" rel="noopener noreferrer" class="project-item project-item--linked">
+                            <div class="project-header">
+                                <span class="project-title">Recipeasy <span class="project-link-icon" aria-hidden="true">&nearr;</span></span>
+                                <span class="project-year">2025</span>
+                            </div>
+                            <p class="project-desc">Full-stack recipe application built with Java (Spring), React, SQL database, Liquibase migrations, and Docker.</p>
+                            <div class="project-skills"><span>Skills:</span> React, Java, Spring, SQL, Docker, Liquibase</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
 </body>
+</html>

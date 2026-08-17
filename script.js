@@ -1,7 +1,12 @@
 import timelineData from './timeline.js';
 import MinHeap from './minheap.js';
 
-
+const collapsedWidth = 12;
+const trackGap = 4;
+const expandedWidth = 280;
+const labelOffset = 20;
+const expansionGap = 24;
+const expansionOffset = labelOffset + expandedWidth + expansionGap - (collapsedWidth + trackGap);
 
 function expandBar(bar, shouldScroll = true) {
     if (currentlyExpanded && currentlyExpanded !== bar) {
@@ -18,16 +23,17 @@ function expandBar(bar, shouldScroll = true) {
         bar.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 }
+
 function getTracks(list) {
-    if (list.length == 0) {
-        return []
+    if (list.length === 0) {
+        return [];
     }
     const rooms = new MinHeap();
-    const finalorders = [[]]
+    const finalorders = [[]];
     let tracks = 0;
     list[0].trackId = 0;
-    rooms.insert(list[0])
-    finalorders[tracks].push(list[0])
+    rooms.insert(list[0]);
+    finalorders[tracks].push(list[0]);
     for (let i = 1; i < list.length; i++) {
         const current = list[i];
         if (current.startDate > rooms.peek().endDate) {
@@ -35,27 +41,26 @@ function getTracks(list) {
             current.trackId = r.trackId;
         } else {
             tracks++;
-            finalorders.push([])
-            current.trackId = tracks
+            finalorders.push([]);
+            current.trackId = tracks;
         }
-        finalorders[current.trackId].push(current)
-        rooms.insert(current)
+        finalorders[current.trackId].push(current);
+        rooms.insert(current);
     }
-    return finalorders
-};
+    return finalorders;
+}
 
-function setUpTimeline (alltracks) {
-    const container = document.getElementById('spine')
+function setUpTimeline(alltracks) {
+    const container = document.getElementById('spine');
     const currentDate = new Date();
     for (let year = startYear; year >= endYear; year--) {
         for (let month = 11; month >= 0; month--) {
             const tick = document.createElement('div');
             tick.classList.add('tick', month === 11 ? 'tick--year' : 'tick--month');
             tick.textContent = month === 11 ? year : '';
-            if ( month === currentDate.getMonth() && year === (currentDate.getFullYear()+1)) {
+            if (month === currentDate.getMonth() && year === (currentDate.getFullYear() + 1)) {
                 tick.classList.add('tick--current');
                 tick.textContent = 'Now';
-                console.log(currentDate)
             }
             container.appendChild(tick);
         }
@@ -63,11 +68,11 @@ function setUpTimeline (alltracks) {
 }
 
 function getTopmostElement(elements) {
-  return elements.reduce((topmost, el) => {
-    const currentTop = parseFloat(el.style.top);
-    const topmostTop = parseFloat(topmost.style.top);
-    return currentTop < topmostTop ? el : topmost;
-  });
+    return elements.reduce((topmost, el) => {
+        const currentTop = parseFloat(el.style.top);
+        const topmostTop = parseFloat(topmost.style.top);
+        return currentTop < topmostTop ? el : topmost;
+    });
 }
 
 function dateToY(date) {
@@ -79,26 +84,16 @@ function monthIndex(date) {
     return date.getFullYear() * 12 + date.getMonth();
 }
 
-function createBar(event){
+function createBar(event) {
     const bar = document.createElement('div');
     bar.classList.add('event-bar', `event-bar--${event.type}`);
-    console.log(event)
-    const top = dateToY(event.endDate)
-    const bottom = dateToY(event.startDate)
-
-
-    const barWidth = 12;
-    const trackGap = 4;
+    const top = dateToY(event.endDate);
+    const bottom = dateToY(event.startDate);
 
     bar.eventData = event;
-    bar.style.top = `${top}px`
-    bar.style.height = `${bottom - top}px`
-    bar.style.left = `${event.trackId * (barWidth + trackGap)}px`
-
-    // const label = document.createElement('div');
-    // label.classList.add('event-label');
-    // label.textContent = event.name;
-    // label.style.top = 0
+    bar.style.top = `${top}px`;
+    bar.style.height = `${bottom - top}px`;
+    bar.style.left = `${event.trackId * (collapsedWidth + trackGap)}px`;
 
     const label = document.createElement('div');
     label.classList.add('event-label', `event-label--${event.type}`);
@@ -106,6 +101,10 @@ function createBar(event){
     const name = document.createElement('div');
     name.classList.add('event-label-name');
     name.textContent = event.name;
+    name.addEventListener('click', (e) => {
+        e.stopPropagation();
+        expandBar(bar);
+    });
 
     const role = document.createElement('div');
     role.classList.add('event-label-role');
@@ -127,16 +126,16 @@ function createBar(event){
 
     bar.addEventListener('click', () => expandBar(bar));
 
-    bar.appendChild(label)
+    bar.appendChild(label);
     return bar;
 }
 
 function createPoint(event) {
     const point = document.createElement('div');
     point.classList.add('event-point', `event-point--${event.type}`);
-    const y = dateToY(event.startDate)
-     point.style.top = `${y}px`;
-    point.style.left = `${event.trackId * (12 + 4)}px`;
+    const y = dateToY(event.startDate);
+    point.style.top = `${y}px`;
+    point.style.left = `${event.trackId * (collapsedWidth + trackGap)}px`;
 
     const label = document.createElement('div');
     label.classList.add('event-label', `event-label--${event.type}`);
@@ -144,6 +143,10 @@ function createPoint(event) {
     const name = document.createElement('div');
     name.classList.add('event-label-name');
     name.textContent = event.name;
+    name.addEventListener('click', (e) => {
+        e.stopPropagation();
+        expandBar(point);
+    });
 
     const role = document.createElement('div');
     role.classList.add('event-label-role');
@@ -168,17 +171,18 @@ function createPoint(event) {
     point.appendChild(label);
     return point;
 }
+
 const allElements = [];
 function populateBars(events) {
-    const barConainer = document.getElementById('bars')
+    const barContainer = document.getElementById('bars');
     events.forEach(event => {
         if (event.startDate.getTime() === event.endDate.getTime()) {
             const point = createPoint(event);
-            barConainer.appendChild(point);
+            barContainer.appendChild(point);
             allElements.push(point);
         } else {
             const bar = createBar(event);
-            barConainer.appendChild(bar);
+            barContainer.appendChild(bar);
             allElements.push(bar);
         }
     });
@@ -187,10 +191,10 @@ function populateBars(events) {
 function applyOffset(track, offset) {
     track.forEach(rows => {
         rows.forEach(event => {
-            event.trackId += offset
+            event.trackId += offset;
         });
     });
-    return track
+    return track;
 }
 
 function repositionBars(expandedTrackId) {
@@ -206,10 +210,20 @@ function repositionBars(expandedTrackId) {
     });
 
     revealFittingLabels();
+    setTimeout(revealFittingLabels, 270);
 }
 
 function revealFittingLabels() {
     const bars = Array.from(document.querySelectorAll('.event-bar, .event-point'));
+    
+    // Clear is-visible on unexpanded bars before recalculating
+    bars.forEach(bar => {
+        if (!bar.classList.contains('is-expanded')) {
+            const label = bar.querySelector('.event-label-name');
+            if (label) label.classList.remove('is-visible');
+        }
+    });
+
     const rects = bars.map(bar => ({ bar, rect: bar.getBoundingClientRect() }));
 
     rects.forEach(({ bar, rect }) => {
@@ -218,7 +232,7 @@ function revealFittingLabels() {
         const bandBottom = rect.top + topBandHeight;
 
         const hasBarToRight = rects.some(other => {
-        if (other.bar === bar) return false;
+            if (other.bar === bar) return false;
             const otherRect = other.rect;
 
             const isToTheRight = otherRect.left >= rect.right;
@@ -239,22 +253,20 @@ const jobTracks = getTracks(timelineData[0]);
 const eduTracks = getTracks(timelineData[1]);
 const projectTracks = getTracks(timelineData[2]);
 const eventTracks = getTracks(timelineData[3]);
-const collapsedWidth = 12;
-const expandedWidth = 250;
-const trackGap = 4;
-const expansionOffset = expandedWidth + 20 - collapsedWidth;
-const eduOffset = 0
-const jobOffset = eduOffset + eduTracks.length
-const projectOffset = jobOffset + jobTracks.length
-const eventOffset = projectOffset + projectTracks.length
 
-const alltracks = [...timelineData[0], ...timelineData[1], ...timelineData[2], ...timelineData[3]]
+const eduOffset = 0;
+const jobOffset = eduOffset + eduTracks.length;
+const projectOffset = jobOffset + jobTracks.length;
+const eventOffset = projectOffset + projectTracks.length;
+
+const alltracks = [...timelineData[0], ...timelineData[1], ...timelineData[2], ...timelineData[3]];
 const indexedTracks = [
     ...applyOffset(eduTracks, eduOffset),
     ...applyOffset(jobTracks, jobOffset),
     ...applyOffset(projectTracks, projectOffset),
     ...applyOffset(eventTracks, eventOffset)
-]
+];
+
 let currentlyExpanded = null;
 let startYear = alltracks[0].endDate.getFullYear();
 let endYear = alltracks[0].startDate.getFullYear();
@@ -266,13 +278,12 @@ alltracks.forEach(element => {
         endYear = element.startDate.getFullYear();
     }
 });
-startYear += 1
-endYear += 1
+startYear += 1;
+endYear += 1;
 const topAnchor = monthIndex(new Date(startYear, 0));
-setUpTimeline(alltracks)
-console.log(indexedTracks)
-populateBars(indexedTracks.flat())
+
+setUpTimeline(alltracks);
+populateBars(indexedTracks.flat());
 const topBar = getTopmostElement(allElements);
 expandBar(topBar, false);
 revealFittingLabels();
-
