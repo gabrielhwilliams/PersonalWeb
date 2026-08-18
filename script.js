@@ -5,7 +5,7 @@ const collapsedWidth = 12;
 const trackGap = 4;
 const expandedWidth = 280;
 const labelOffset = 20;
-const expansionGap = 24;
+const expansionGap = 6;
 const expansionOffset = labelOffset + expandedWidth + expansionGap - (collapsedWidth + trackGap);
 
 function expandBar(bar, shouldScroll = true) {
