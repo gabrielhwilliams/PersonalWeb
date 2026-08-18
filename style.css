@@ -110,6 +110,48 @@ body {
   --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
 }
 
+[data-theme="disco"] {
+  /* Vibrant Retro Disco Club Canvas */
+  --bg-main: #0c0714;        /* Deep Midnight Velvet */
+  --bg-card: #170c27;        /* Elevated Card with purple gloss */
+  --bg-tag: #200f38;         /* Glowing disco pill */
+  --bg-tag-hover: #311556;   /* Hot disco tag hover */
+
+  /* Ultra High-Contrast Neon-Glow Typography */
+  --text-main: #ffffff;      /* Pure Crisp White */
+  --text-muted: #e7d8ff;     /* Soft Electric Lavender */
+  --grey: #bd9ff5;           /* Bright Lilac Taupe */
+  --grey-light: #6a40a8;     /* Vibrant purple dividers */
+  --border: #521c94;         /* Neon purple border */
+  --border-subtle: #361066;  /* Deep magenta border */
+
+  /* Primary Neon Brands */
+  --primary: #ff2a85;        /* Neon Hot Pink / Magenta */
+  --primary-hover: #00f5ff;  /* Electric Cyan */
+  --hightlight: #ffe600;     /* Laser Gold */
+
+  /* 4 Electric Neon Category Colors */
+  --job: #00f5ff;            /* Laser Cyan (Jobs) */
+  --education: #39ff14;      /* Neon Lime Green (Education) */
+  --project: #ff007f;        /* Hot Magenta Pink (Projects) */
+  --event: #ffe600;          /* Electric Laser Gold (Events) */
+
+  /* Timeline & Badges */
+  --accent: #130822;         /* Deep disco sidebar */
+  --badge-bg: #4a0d6e;       /* Hot magenta badge */
+  --badge-text: #00f5ff;     /* Laser cyan badge text */
+
+  /* Shadows & Component Theming */
+  --nav-bg: rgba(12, 7, 20, 0.90);
+  --nav-shadow: 0 0 20px rgba(255, 42, 133, 0.4), 0 2px 8px rgba(0, 245, 255, 0.25);
+  --btn-shadow: 0 0 16px rgba(255, 42, 133, 0.6);
+  --tag-shadow: 0 0 10px rgba(0, 245, 255, 0.25);
+  --tag-hover-border: #ff2a85;
+  --project-hover-bg: rgba(255, 42, 133, 0.15);
+  --tick-month-line: #ff2a85;
+  --card-shadow: 0 0 30px rgba(255, 42, 133, 0.4), 0 0 15px rgba(0, 245, 255, 0.3);
+}
+
 /* ============ NAVBAR ============ */
 .navbar {
   display: flex;
@@ -254,34 +296,58 @@ body {
 }
 
 .theme-icon-sun,
-.theme-icon-moon {
+.theme-icon-moon,
+.theme-icon-disco {
   width: 18px;
   height: 18px;
   stroke: var(--text-main);
-  transition: transform 0.25s ease, stroke 0.2s ease;
-  display: block;
+  transition: transform 0.25s ease, stroke 0.2s ease, filter 0.25s ease;
+  display: none;
 }
 
 .theme-toggle-btn:hover .theme-icon-sun,
-.theme-toggle-btn:hover .theme-icon-moon {
+.theme-toggle-btn:hover .theme-icon-moon,
+.theme-toggle-btn:hover .theme-icon-disco {
   stroke: var(--primary);
   transform: rotate(15deg);
 }
 
-/* Light mode: show moon, hide sun */
-.theme-icon-sun {
-  display: none;
-}
-.theme-icon-moon {
+/* Light mode (default): show moon */
+html:not([data-theme="dark"]):not([data-theme="disco"]) .theme-icon-moon,
+[data-theme="light"] .theme-icon-moon {
   display: block;
 }
 
-/* Dark mode: show sun, hide moon */
-[data-theme="dark"] .theme-icon-sun {
+/* Dark mode without disco unlocked: show sun */
+[data-theme="dark"] .theme-toggle-btn:not([data-disco-unlocked="true"]) .theme-icon-sun {
   display: block;
 }
-[data-theme="dark"] .theme-icon-moon {
-  display: none;
+
+/* Dark mode with disco unlocked: show disco ball icon with pulse */
+[data-theme="dark"] .theme-toggle-btn[data-disco-unlocked="true"] .theme-icon-disco {
+  display: block;
+  stroke: #ff2a85;
+  filter: drop-shadow(0 0 5px #00f5ff);
+  animation: disco-icon-wiggle 2.5s ease-in-out infinite alternate;
+}
+
+@keyframes disco-icon-wiggle {
+  0% { transform: rotate(-8deg) scale(1); }
+  50% { transform: rotate(8deg) scale(1.1); stroke: #00f5ff; }
+  100% { transform: rotate(-8deg) scale(1); stroke: #ff2a85; }
+}
+
+/* Disco mode: show sun to cycle back to light mode */
+[data-theme="disco"] .theme-icon-sun {
+  display: block;
+  stroke: #ffe600;
+  filter: drop-shadow(0 0 6px #ff2a85);
+  animation: disco-sun-spin 8s linear infinite;
+}
+
+@keyframes disco-sun-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 /* ============ BUTTONS ============ */
@@ -654,7 +720,8 @@ body {
   }
 
   .theme-icon-sun,
-  .theme-icon-moon {
+  .theme-icon-moon,
+  .theme-icon-disco {
     width: 16px;
     height: 16px;
   }
@@ -790,7 +857,8 @@ body {
   }
 
   .theme-icon-sun,
-  .theme-icon-moon {
+  .theme-icon-moon,
+  .theme-icon-disco {
     width: 13px;
     height: 13px;
   }
@@ -1121,4 +1189,222 @@ body {
 
 .event-label-skills {
   color: var(--grey);
+}
+
+/* ============ DISCO MODE SPECIAL EFFECTS ============ */
+[data-theme="disco"] body {
+  background-image: 
+    radial-gradient(circle at 15% 20%, rgba(255, 42, 133, 0.15) 0%, transparent 45%),
+    radial-gradient(circle at 85% 15%, rgba(0, 245, 255, 0.15) 0%, transparent 45%),
+    radial-gradient(circle at 50% 85%, rgba(255, 230, 0, 0.12) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(57, 255, 20, 0.10) 0%, transparent 45%);
+  background-attachment: fixed;
+}
+
+[data-theme="disco"] .name-title {
+  background: linear-gradient(90deg, #ff007f, #00f5ff, #ffe600, #39ff14, #b026ff, #ff007f);
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: disco-rainbow-text 5s linear infinite;
+  filter: drop-shadow(0 0 10px rgba(255, 0, 127, 0.5));
+}
+
+@keyframes disco-rainbow-text {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 300% 50%; }
+}
+
+[data-theme="disco"] .chunk-title {
+  border-image: linear-gradient(90deg, #ff2a85, #00f5ff, #39ff14) 1;
+  text-shadow: 0 0 8px rgba(255, 42, 133, 0.6);
+}
+
+[data-theme="disco"] .navbar {
+  border-bottom: 2px solid #ff2a85;
+  box-shadow: 0 0 20px rgba(255, 42, 133, 0.4), 0 0 35px rgba(0, 245, 255, 0.2);
+  animation: disco-nav-glow 4s ease-in-out infinite alternate;
+}
+
+@keyframes disco-nav-glow {
+  0% {
+    border-color: #ff2a85;
+    box-shadow: 0 0 20px rgba(255, 42, 133, 0.4), 0 0 35px rgba(0, 245, 255, 0.2);
+  }
+  50% {
+    border-color: #00f5ff;
+    box-shadow: 0 0 20px rgba(0, 245, 255, 0.4), 0 0 35px rgba(255, 230, 0, 0.25);
+  }
+  100% {
+    border-color: #39ff14;
+    box-shadow: 0 0 20px rgba(57, 255, 20, 0.4), 0 0 35px rgba(255, 42, 133, 0.2);
+  }
+}
+
+[data-theme="disco"] .skill-tag {
+  animation: disco-pulse 2.5s ease-in-out infinite alternate;
+}
+
+[data-theme="disco"] .skill-tag:nth-child(4n + 1) {
+  border-color: #ff2a85;
+  box-shadow: 0 0 8px rgba(255, 42, 133, 0.4);
+}
+
+[data-theme="disco"] .skill-tag:nth-child(4n + 2) {
+  border-color: #00f5ff;
+  box-shadow: 0 0 8px rgba(0, 245, 255, 0.4);
+  animation-delay: 0.5s;
+}
+
+[data-theme="disco"] .skill-tag:nth-child(4n + 3) {
+  border-color: #ffe600;
+  box-shadow: 0 0 8px rgba(255, 230, 0, 0.4);
+  animation-delay: 1s;
+}
+
+[data-theme="disco"] .skill-tag:nth-child(4n + 4) {
+  border-color: #39ff14;
+  box-shadow: 0 0 8px rgba(57, 255, 20, 0.4);
+  animation-delay: 1.5s;
+}
+
+@keyframes disco-pulse {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-1.5px); }
+  100% { transform: translateY(0); }
+}
+
+[data-theme="disco"] .project-item--linked:hover {
+  box-shadow: 0 0 16px rgba(0, 245, 255, 0.3);
+}
+
+[data-theme="disco"] .nav-icon {
+  filter: invert(1) drop-shadow(0 0 4px #00f5ff);
+}
+
+[data-theme="disco"] .nav-slash {
+  filter: invert(1) drop-shadow(0 0 4px #ff2a85);
+}
+
+[data-theme="disco"] .event-bar,
+[data-theme="disco"] .event-point {
+  filter: drop-shadow(0 0 6px currentColor);
+}
+
+[data-theme="disco"] .experience-company {
+  text-shadow: 0 0 8px rgba(255, 42, 133, 0.6);
+}
+
+[data-theme="disco"] .experience-badge {
+  box-shadow: 0 0 8px rgba(0, 245, 255, 0.4);
+  animation: disco-badge-blink 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes disco-badge-blink {
+  0% { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(90deg); }
+}
+
+/* ============ DISCO UNLOCKED TOAST ============ */
+.disco-toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  max-width: 380px;
+  background: #170d26;
+  border: 2px solid #ff2a85;
+  border-radius: 12px;
+  padding: 14px 18px;
+  box-shadow: 0 0 25px rgba(255, 42, 133, 0.4), 0 0 15px rgba(0, 245, 255, 0.3), 0 10px 30px rgba(0, 0, 0, 0.5);
+  color: #ffffff;
+  z-index: 2000;
+  opacity: 0;
+  transform: translateY(20px) scale(0.95);
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.disco-toast.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+.disco-toast-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.disco-toast-icon {
+  font-size: 28px;
+  line-height: 1;
+  animation: disco-toast-bounce 1s ease-in-out infinite alternate;
+}
+
+@keyframes disco-toast-bounce {
+  0% { transform: translateY(0) rotate(-10deg); }
+  100% { transform: translateY(-4px) rotate(10deg); }
+}
+
+.disco-toast-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 0.85rem;
+  line-height: 1.35;
+}
+
+.disco-toast-text strong {
+  font-size: 0.95rem;
+  color: #00f5ff;
+  letter-spacing: 0.02em;
+}
+
+.disco-toast-text span {
+  color: #e4d4ff;
+}
+
+.disco-toast-btn {
+  background: linear-gradient(135deg, #ff2a85, #b026ff);
+  color: #ffffff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 0 0 10px rgba(255, 42, 133, 0.5);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.disco-toast-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 16px rgba(0, 245, 255, 0.7);
+}
+
+.disco-toast-close {
+  background: transparent;
+  border: none;
+  color: #a395b0;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 4px;
+  margin-left: 2px;
+  transition: color 0.15s ease;
+}
+
+.disco-toast-close:hover {
+  color: #ffffff;
+}
+
+@media (max-width: 600px) {
+  .disco-toast {
+    bottom: 16px;
+    right: 16px;
+    left: 16px;
+    max-width: none;
+  }
 }
