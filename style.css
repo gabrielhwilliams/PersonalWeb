@@ -18,6 +18,7 @@ body {
   background-color: var(--bg-main);
   padding-top: var(--nav-height);
   overflow-x: clip;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 :root {
@@ -53,8 +54,60 @@ body {
   --badge-bg: #f3e8ff;       /* Soft purple bisque badge */
   --badge-text: #6b21a8;     /* Purple 800 badge text */
 
+  /* Shadows & Component Theming */
+  --nav-bg: rgba(242, 237, 228, 0.92);
+  --nav-shadow: 0 1px 3px 0 rgba(35, 23, 51, 0.04);
+  --btn-shadow: 0 4px 10px rgba(35, 23, 51, 0.1);
+  --tag-shadow: 0 1px 2px rgba(35, 23, 51, 0.04);
+  --tag-hover-border: #c9bea9;
+  --project-hover-bg: rgba(35, 23, 51, 0.07);
+  --tick-month-line: #d4caa8;
+  --card-shadow: 0 10px 25px -5px rgba(35, 23, 51, 0.12), 0 8px 10px -6px rgba(35, 23, 51, 0.06);
+
   --sidebar-width: 150px;
   --tick-column-width: 60px;
+}
+
+[data-theme="dark"] {
+  /* Rich, Atmospheric Midnight Charcoal & Deep Slate Canvas */
+  --bg-main: #13111c;        /* Deep Midnight Amethyst background */
+  --bg-card: #1e192a;        /* Elevated card / popup background */
+  --bg-tag: #221d30;         /* Pill tag background */
+  --bg-tag-hover: #2d263e;   /* Pill tag hover */
+
+  /* High-Contrast Crisp Lavender-White Typography */
+  --text-main: #f5f2fc;      /* Bright, crisp, legible main text */
+  --text-muted: #c5bdd4;     /* Soft lavender-grey body text */
+  --grey: #9b8ea8;           /* Muted violet taupe */
+  --grey-light: #584c6e;     /* Subtle timestamps and dividers */
+  --border: #312942;         /* Clean midnight purple border */
+  --border-subtle: #262034;  /* Subtle divider border */
+
+  /* Primary Brand & Navbar Highlights */
+  --primary: #a78bfa;        /* Vibrant Electric Lilac / Purple */
+  --primary-hover: #c4b5fd;  /* Light Lavender Purple */
+  --hightlight: #c084fc;
+
+  /* 4 Distinct Category Colors (tuned for dark background vibrancy) */
+  --job: #60a5fa;            /* Vibrant Cobalt / Sky Blue */
+  --education: #34d399;      /* Forest Emerald / Mint Green */
+  --project: #fb923c;        /* Warm Amber Orange */
+  --event: #c084fc;          /* Electric Lilac Violet */
+
+  /* Timeline & Badges */
+  --accent: #181523;         /* Timeline sidebar accent */
+  --badge-bg: #351e54;       /* Deep violet bisque badge */
+  --badge-text: #e9d5ff;     /* Light purple badge text */
+
+  /* Shadows & Component Theming */
+  --nav-bg: rgba(19, 17, 28, 0.92);
+  --nav-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.35);
+  --btn-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --tag-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  --tag-hover-border: #52436e;
+  --project-hover-bg: rgba(167, 139, 250, 0.08);
+  --tick-month-line: #3e3452;
+  --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
 }
 
 /* ============ NAVBAR ============ */
@@ -65,17 +118,18 @@ body {
   font-size: 16px;
   height: var(--nav-height);
   padding: 0 32px;
-  background-color: rgba(242, 237, 228, 0.92);
+  background-color: var(--nav-bg);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
-  box-shadow: 0 1px 3px 0 rgba(35, 23, 51, 0.04);
+  box-shadow: var(--nav-shadow);
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   z-index: 1000;
   box-sizing: border-box;
+  transition: background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
 .nav-left {
@@ -157,16 +211,25 @@ body {
   border-radius: 8px;
   background: var(--bg-tag);
   border: 1px solid var(--border);
-  transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+  color: var(--text-main);
+  transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, color 0.15s ease;
   text-decoration: none;
   box-sizing: border-box;
+  cursor: pointer;
+  padding: 0;
+  font-family: inherit;
 }
 
 .nav-icon-btn:hover {
   background: var(--bg-tag-hover);
-  border-color: #c9bea9;
+  border-color: var(--tag-hover-border);
   transform: translateY(-2px);
-  box-shadow: 0 4px 10px rgba(35, 23, 51, 0.1);
+  box-shadow: var(--btn-shadow);
+}
+
+.nav-icon-btn:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
 }
 
 .nav-icon {
@@ -174,6 +237,51 @@ body {
   height: 20px;
   object-fit: contain;
   display: block;
+  transition: filter 0.2s ease;
+}
+
+[data-theme="dark"] .nav-icon {
+  filter: invert(0.92) brightness(1.1);
+}
+
+[data-theme="dark"] .nav-slash {
+  filter: invert(0.75);
+}
+
+/* Theme Toggle Button & Icons */
+.theme-toggle-btn {
+  position: relative;
+}
+
+.theme-icon-sun,
+.theme-icon-moon {
+  width: 18px;
+  height: 18px;
+  stroke: var(--text-main);
+  transition: transform 0.25s ease, stroke 0.2s ease;
+  display: block;
+}
+
+.theme-toggle-btn:hover .theme-icon-sun,
+.theme-toggle-btn:hover .theme-icon-moon {
+  stroke: var(--primary);
+  transform: rotate(15deg);
+}
+
+/* Light mode: show moon, hide sun */
+.theme-icon-sun {
+  display: none;
+}
+.theme-icon-moon {
+  display: block;
+}
+
+/* Dark mode: show sun, hide moon */
+[data-theme="dark"] .theme-icon-sun {
+  display: block;
+}
+[data-theme="dark"] .theme-icon-moon {
+  display: none;
 }
 
 /* ============ BUTTONS ============ */
@@ -294,13 +402,13 @@ body {
   border-radius: 16px;
   font-size: 0.825rem;
   font-weight: 500;
-  box-shadow: 0 1px 2px rgba(35, 23, 51, 0.04);
-  transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+  box-shadow: var(--tag-shadow);
+  transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 }
 
 .skill-tag:hover {
   background: var(--bg-tag-hover);
-  border-color: #c9bea9;
+  border-color: var(--tag-hover-border);
   transform: translateY(-1px);
 }
 
@@ -404,9 +512,9 @@ body {
   transition: background-color 0.15s ease;
 }
 
-/* Darkened square on hover with sharp corners, no border */
+/* Hover state with adaptive theme background */
 .project-item:hover {
-  background-color: rgba(35, 23, 51, 0.07);
+  background-color: var(--project-hover-bg);
 }
 
 .project-item--linked {
@@ -545,6 +653,12 @@ body {
     height: 17px;
   }
 
+  .theme-icon-sun,
+  .theme-icon-moon {
+    width: 16px;
+    height: 16px;
+  }
+
   .main-column {
     padding: 24px 16px 48px;
     gap: 22px;
@@ -675,6 +789,12 @@ body {
     height: 14px;
   }
 
+  .theme-icon-sun,
+  .theme-icon-moon {
+    width: 13px;
+    height: 13px;
+  }
+
   .main-column {
     padding: 20px 12px 40px;
   }
@@ -758,7 +878,7 @@ body {
   margin-left: 4px;
   width: 16px;
   height: 2px;
-  background: #d4caa8;
+  background: var(--tick-month-line);
 }
 
 .tick--month::after {
@@ -892,7 +1012,7 @@ body {
   padding: 12px 14px;
   background: var(--bg-card);
   border-radius: 8px;
-  box-shadow: 0 10px 25px -5px rgba(35, 23, 51, 0.12), 0 8px 10px -6px rgba(35, 23, 51, 0.06);
+  box-shadow: var(--card-shadow);
   white-space: normal;
   z-index: 20;
   animation: fadeInLabel 0.18s cubic-bezier(0.16, 1, 0.3, 1);

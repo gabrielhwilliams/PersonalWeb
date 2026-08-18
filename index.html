@@ -6,6 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gabriel Williams | Software Engineer</title>
     <link rel="stylesheet" href="style.css">
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            const systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const theme = savedTheme || (systemDark ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
+    <script src="theme.js" defer></script>
 </head>
 <body>
 
@@ -21,6 +30,22 @@
                 </ul>
             </div>
             <div class="nav-right">
+                <button id="theme-toggle" class="nav-icon-btn theme-toggle-btn" aria-label="Toggle dark mode" title="Toggle dark mode">
+                    <svg class="theme-icon-moon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="theme-icon-sun" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
                 <a href="mailto:gabrielhwilliams@gmail.com" class="nav-icon-btn" aria-label="Email" title="Email">
                     <img src="images/mail.png" alt="Email" class="nav-icon">
                 </a>
@@ -110,7 +135,7 @@
 
                 <div class="experience-item">
                     <div class="experience-header">
-                        <span class="experience-role">Instructor</span>
+                        <span class="experience-role">Instructor<span class="experience-badge">Co-op</span></span>
                         <span class="experience-date">Jun 2026 &ndash; Aug 2026</span>
                     </div>
                     <div class="experience-company">iD Tech</div>
@@ -153,14 +178,14 @@
                         <span class="experience-role">Featured Projects</span>
                     </div>
                     <div class="project-list">
-                        <div class="project-item">
+                        <a href="https://github.com/KieranStewart/trello-bored" target="_blank" rel="noopener noreferrer" class="project-item project-item--linked">
                             <div class="project-header">
-                                <span class="project-title">TrelloBored</span>
+                                <span class="project-title">TrelloBored <span class="project-link-icon" aria-hidden="true">&nearr;</span></span>
                                 <span class="project-year">2026</span>
                             </div>
                             <p class="project-desc">AI-powered VS Code extension interpreting Git actions to manage scrum tickets via Python backend, Gemini AI, and GitHub Actions.</p>
                             <div class="project-skills"><span>Skills:</span> CI/CD, Python, Gemini AI, GitHub Actions</div>
-                        </div>
+                        </a>
 
                         <div class="project-item">
                             <div class="project-header">
@@ -178,6 +203,15 @@
                             </div>
                             <p class="project-desc">Full-stack recipe application built with Java (Spring), React, SQL database, Liquibase migrations, and Docker.</p>
                             <div class="project-skills"><span>Skills:</span> React, Java, Spring, SQL, Docker, Liquibase</div>
+                        </a>
+
+                        <a href="https://milestallia.github.io/tantalizing-tardigrades/" target="_blank" rel="noopener noreferrer" class="project-item project-item--linked">
+                            <div class="project-header">
+                                <span class="project-title">Middle Mismanagment <span class="project-link-icon" aria-hidden="true">&nearr;</span></span>
+                                <span class="project-year">2025</span>
+                            </div>
+                            <p class="project-desc"> A game made for BrickHack 11. In Middle Mismanagment, you are a manager who has to approve or deny potential infrastricture projects and balance the budget and environmental impact.</p>
+                            <div class="project-skills"><span>Skills: Godot, GDScript, Game design, </span></div>
                         </a>
                     </div>
                 </div>
