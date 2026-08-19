@@ -28,7 +28,7 @@ class MinHeap {
     }
 
     heapifyUp(i) {
-        parent = Math.floor((i - 1) / 2)
+        const parent = Math.floor((i - 1) / 2)
         if ((parent >= 0) && this.heap[parent].endDate > this.heap[i].endDate) {
             this.swap(parent, i)
             this.heapifyUp(parent)
@@ -42,14 +42,18 @@ class MinHeap {
     }
 
     heapifyDown(i) {
-        const l = 2*i + 1
-        const r = 2*i + 2
-        if (l < this.heap.length && this.heap[l].endDate < this.heap[i].endDate){
-            this.swap(l, i)
-            this.heapifyDown(l)
-        } else if (r < this.heap.length && this.heap[r].endDate < this.heap[i].endDate){
-            this.swap(r, i)
-            this.heapifyDown(r)
+        const l = 2 * i + 1;
+        const r = 2 * i + 2;
+        let smallest = i;
+        if (l < this.heap.length && this.heap[l].endDate < this.heap[smallest].endDate) {
+            smallest = l;
+        }
+        if (r < this.heap.length && this.heap[r].endDate < this.heap[smallest].endDate) {
+            smallest = r;
+        }
+        if (smallest !== i) {
+            this.swap(smallest, i);
+            this.heapifyDown(smallest);
         }
     }
 } export default MinHeap;

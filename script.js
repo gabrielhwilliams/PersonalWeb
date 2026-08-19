@@ -58,7 +58,7 @@ function setUpTimeline(alltracks) {
             const tick = document.createElement('div');
             tick.classList.add('tick', month === 11 ? 'tick--year' : 'tick--month');
             tick.textContent = month === 11 ? year : '';
-            if (month === currentDate.getMonth() && year === (currentDate.getFullYear() + 1)) {
+            if (month === currentDate.getMonth() && year === currentDate.getFullYear()) {
                 tick.classList.add('tick--current');
                 tick.textContent = 'Now';
             }
@@ -278,9 +278,8 @@ alltracks.forEach(element => {
         endYear = element.startDate.getFullYear();
     }
 });
-startYear += 1;
-endYear += 1;
-const topAnchor = monthIndex(new Date(startYear, 0));
+// startYear += 1;
+const topAnchor = monthIndex(new Date(startYear, 11));
 
 setUpTimeline(alltracks);
 populateBars(indexedTracks.flat());
